@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffc0cb;
+            overflow: auto;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+        }
+
+        .half {
+            position: absolute;
+            font-size: 10vh;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        #leftHeart {
+            left: 40px;
+            top: 40px;
+        }
+
+        #rightHeart {
+            right: 40px;
+            top: 40px;
+            transform: scaleX(-1);
+        }
+
+        .head {
+            position: relative;
+            color: rgb(27, 77, 193);
+        }
+
+        .name {
+            position: absolute;
+            top: 120px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .full-heart {
+            font-size: 100px;
+            display: none;
+            margin-top: 20px;
+            animation: pop 0.3s ease forwards;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: beige;
+            color: rgb(10, 9, 100);
+        }
+
+
+        video {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.6);
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .final-message {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        #completeSection {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <video autoplay muted loop>
+        <source src="video.mp4" type="video/mp4">
+    </video>
+    <div class="wrapper">
+        <div class="heart-container">
+
+            <!-- Half hearts -->
+            <div id="leftHeart" class="half">🫴</div>
+            <div id="rightHeart" class="half">🫳</div>
+            <div class="name" id="beforeName">Iris 💖 Siri</div>
+
+
+        </div>
+
+        <div id="completeSection">
+            <div class="full-heart" id="fullHeart">💖</div>
+
+            <div class="final-message" id="finalMsg">
+                <h2>Thank You For All The LOVE 💞</h2>
+                <img src="happy2.gif" width="100">
+                <div><br></div>
+
+                <button onclick="window.location.href='reaction.html'">
+                    Click here to Restart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const rightHeart = document.getElementById("rightHeart");
+        const leftHeart = document.getElementById("leftHeart");
+        const fullHeart = document.getElementById("fullHeart");
+        const finalMsg = document.getElementById("finalMsg");
+
+        let isDragging = false;
+
+        rightHeart.addEventListener("mousedown", () => {
+            isDragging = true;
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (isDragging) {
+                rightHeart.style.left = e.pageX - 40 + "px";
+                rightHeart.style.top = e.pageY - 40 + "px";
+            }
+
+            const leftRect = leftHeart.getBoundingClientRect();
+            const rightRect = rightHeart.getBoundingClientRect();
+
+            if (
+                Math.abs(leftRect.left - rightRect.left) < 50 &&
+                Math.abs(leftRect.top - rightRect.top) < 50
+            ) {
+                leftHeart.style.display = "none";
+                rightHeart.style.display = "none";
+
+                document.getElementById("beforeName").style.display = "none";
+
+                fullHeart.style.display = "block";
+                finalMsg.style.display = "block";
+            }
+        });
+    </script>
+
+</body>
+
+
+</html>
